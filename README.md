@@ -11,18 +11,23 @@ Run [WeChat Spark version](https://aur.archlinux.org/packages/com.qq.weixin.spar
 # Start WeChat for the first time
 docker run -it \
     --name wechat \
-    --ipc=host `this is needed otherwise WeChat will crash` \
-    -e LANG=zh_CN.UTF-8 `make WeChat to use the simplified chinese by default` \
+    --ipc=host \
+    -e LANG=zh_CN.UTF-8 \
     -e LC_ALL=zh_CN.UTF-8 \
     -e TZ=Asia/Shanghai \
-    -e GTK_IM_MODULE=fcitx `change fcitx to iBus if you are using iBus` \
+    -e GTK_IM_MODULE=fcitx \
     -e QT_IM_MODULE=fcitx \
     -e XMODIFIERS=@im=fcitx \
     -e DISPLAY \
     -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
-    -e XDG_RUNTIME_DIR=/tmp `https://stackoverflow.com/a/75776428` \
+    -e XDG_RUNTIME_DIR=/tmp \
     -v /run/user/1000/pipewire-0:/tmp/pipewire-0 \
-    wechat
+    ghcr.io/floating-cat/spark-wechat:latest
+
+# --ipc=host is needed, otherwise WeChat will crash 
+# -e LANG=zh_CN.UTF-8 is used to set the default language of WeChat to Simplified Chinese
+# -e XDG_RUNTIME_DIR=/tmp is used for PipeWire audio support
+# Note: please change 'fcitx' to 'iBus' in command above if you are using iBus
 
 # Start WeChat for later
 docker start wechat
