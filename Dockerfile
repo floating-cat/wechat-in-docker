@@ -12,11 +12,12 @@ RUN useradd -m makepkg_user && \
 USER makepkg_user
 
 RUN paru -S --noconfirm com.qq.weixin.spark
-RUN paru -S --noconfirm wqy-microhei wqy-zenhei pipewire-alsa && \
+RUN paru -S --noconfirm wqy-microhei wqy-zenhei pipewire-alsa wmctrl xdotool && \
     yes | paru -Sccd && \
     sudo pacman -D --asdeps $(pacman -Qqe) && \
-    sudo pacman -D --asexplicit base com.qq.weixin.spark wqy-microhei wqy-zenhei pipewire-alsa && \
+    sudo pacman -D --asexplicit base com.qq.weixin.spark wqy-microhei wqy-zenhei pipewire-alsa wmctrl xdotool && \
     sudo pacman -Qdtq | sudo pacman -Rns --noconfirm -
 
 USER root
-CMD ["/opt/apps/com.qq.weixin.spark/files/run.sh"]
+COPY run.sh /
+CMD ["/run.sh"]
