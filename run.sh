@@ -5,15 +5,7 @@ function removeWeChatShadowAtIntervals {
   readonly CHECK_INTERVAL_IN_SEC=1
 
   while true; do
-    window_id=$(wmctrl -lx | grep wechat.exe | awk '{print $1}'| sed -n 's/09$/0d/p;s/10$/1f/p')
-    window_id2=$(echo $window_id | sed -n 's/1f$/23/p')
-
-    if [ -n "$window_id" ]; then
-      xdotool windowunmap "$window_id" &> /dev/null
-    fi
-    if [ -n "$window_id2" ]; then
-      xdotool windowunmap "$window_id2" &> /dev/null
-    fi
+    read -r WCWID WCW WCH <<< $(wmctrl -l -G -x | grep wechat.exe | awk '{printf "%s %s %s\n",$1,$5,$6}'); xwininfo -root -children | grep wechat.exe | grep $(expr $WCW + 40)x$(expr $WCH + 40) | awk '{print $1}' | xargs xdotool windowunmap  &> /dev/null
 
     sleep $CHECK_INTERVAL_IN_SEC
   done
