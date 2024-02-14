@@ -24,7 +24,10 @@ docker run -it \
 
 # --ipc=host is needed, otherwise WeChat will crash 
 # -e XDG_RUNTIME_DIR=/tmp is needed for PipeWire audio support: https://stackoverflow.com/a/75776428
-# Note: please change 'fcitx' to 'iBus' in above command if you are using iBus
+# Note: * please change 'fcitx' to 'iBus' in above command if you are using iBus
+#       * if you can't run this command due to '/run/user/1000/pipewire-0: no such file or directory' error
+#       please remove '-v /run/user/1000/pipewire-0:/tmp/pipewire-0' command part to disable the audio support
+#       or install PipeWire package in your Linux
 
 # Start WeChat for later
 docker start wechat
