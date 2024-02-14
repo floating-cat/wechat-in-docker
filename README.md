@@ -58,7 +58,7 @@ Keywords=wechat;wx;wexin;chat;im;messaging;messenger;sms;
 
 Run `docker build -t spark-wechat --squash .` (or `podman build -t spark-wechat --layers=true --squash-all .` when you are using Podman).
 
-## Limitation
+## Known limitations
 
 ### Compared to WeChat Spark version running without container
 
@@ -68,9 +68,8 @@ Run `docker build -t spark-wechat --squash .` (or `podman build -t spark-wechat 
 
 ### Compared to a native WeChat version
 
-* Emojis are displayed as ▯ (tofu) in the chat input box though they can be correctly sent and displayed in the chat window.
+* Emojis are displayed as ▯ (tofu) in the chat input box, user names, moments though they can be correctly sent and displayed in the chat window.
 * In-app browser doesn't work.
-
 
 ## Credits
 
