@@ -15,7 +15,7 @@ RUN paru -S --noconfirm com.qq.weixin.spark
 RUN paru -S --noconfirm wqy-microhei wqy-zenhei pipewire-alsa wmctrl xdotool xorg-xwininfo && \
     yes | paru -Sccd && \
     sudo pacman -D --asdeps $(pacman -Qqe) && \
-    sudo pacman -D --asexplicit base com.qq.weixin.spark wqy-microhei wqy-zenhei pipewire-alsa wmctrl xdotool  xorg-xwininfo && \
+    sudo pacman -D --asexplicit base com.qq.weixin.spark wqy-microhei wqy-zenhei pipewire-alsa wmctrl xdotool xorg-xwininfo && \
     sudo pacman -Qdtq | sudo pacman -Rns --noconfirm -
 
 USER root
