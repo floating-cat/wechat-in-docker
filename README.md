@@ -23,8 +23,8 @@ docker run -it \
     ghcr.io/floating-cat/spark-wechat:latest
 
 # --ipc=host is needed, otherwise WeChat will crash 
-# -e XDG_RUNTIME_DIR=/tmp is needed for PipeWire audio support
-# Note: please change 'fcitx' to 'iBus' in command above if you are using iBus
+# -e XDG_RUNTIME_DIR=/tmp is needed for PipeWire audio support: https://stackoverflow.com/a/75776428
+# Note: please change 'fcitx' to 'iBus' in above command if you are using iBus
 
 # Start WeChat for later
 docker start wechat
@@ -35,10 +35,10 @@ You can edit the `/root/.deepinwine/Spark-weixin/scale.txt` file within containe
 Optional: Run below command in Bash to add a desktop entry for Linux desktop:
 
 ```bash
-curl https://cdn.lwqwq.com/dl/wechat.svg -o ${XDG_DATA_HOME:-$HOME/.local/share}/icons/wechat.svg && echo "
+curl https://www.iconfinder.com/icons/7857168/download/svg/4096 -o ${XDG_DATA_HOME:-$HOME/.local/share}/icons/wechat.svg && echo "
 [Desktop Entry]
 Name=WeChat
-Comment=WeChat/Weixin Client on Wine
+Comment=WeChat Client on Wine
 Exec=sh -c \"xhost +SI:localuser:$(id -un) && docker start wechat\"
 Icon=${XDG_DATA_HOME:-$HOME/.local/share}/icons/wechat.svg
 Terminal=false
@@ -47,6 +47,8 @@ Type=Application
 Categories=Chat;InstantMessaging;Network;
 Keywords=wechat;wx;wexin;chat;im;messaging;messenger;sms;
 " > ${XDG_DATA_HOME:-$HOME/.local/share}/applications/wechat.desktop
+
+# you can find a different WeChat icon here and use it in the curl command: https://www.iconfinder.com/search?q=wechat&price=free
 ```
 
 ## Build container image from source
@@ -55,13 +57,20 @@ Run `docker build -t spark-wechat --squash .` (or `podman build -t spark-wechat 
 
 ## Limitation
 
-### Compared to WeChat Spark version running without Docker
+### Compared to WeChat Spark version running without container
 
-* The "Open Using Default browser" setting in the WeChat app won't open links in an external browser.
-* You can only successfully paste a file from the clipboard to the chat input box when this file is stored in a shared volume with the same path in both the host and Docker.
+* The "Open Using Default browser" setting in the WeChat app won't open links in the host's external browser.
+* You can only successfully paste a file from the clipboard to the chat input box when this file is stored in a shared volume with the same path in both host and container.
 * The sound only works if the host is using a PipeWire audio server.
 
 ### Compared to a native WeChat version
 
-* Emojis are rendered as ▯ (tofu) in the chat input box.
+* Emojis are displayed as ▯ (tofu) in the chat input box though they can be correctly sent and displayed in the chat window.
 * In-app browser doesn't work.
+
+
+## Credits
+
+https://github.com/276562578/easy_install/blob/4483545f2fd667f24ab9b9e5b6e5d3fcbc69ab31/doc/wechat/linux.md
+
+https://zhuanlan.zhihu.com/p/106926984
