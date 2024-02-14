@@ -4,7 +4,7 @@ Run [WeChat Spark version](https://aur.archlinux.org/packages/com.qq.weixin.spar
 
 ## Usage
 
-1. Run `xhost +local:root` (or `xhost +SI:localuser:$USER` when you are using rootless Containers with Podman) to grant the X11 server access control. The `xhost` command is typically included in a Linux package named `xorg-xhost`, `xhost` or `x11-xserver-utils`.
+1. Run `xhost +SI:localuser:$(id -un)` (or `xhost +SI:localuser:root` when you are running Docker/Podman as a root user) to grant the X11 server access control. The `xhost` command is typically included in a Linux package named `xorg-xhost`, `xhost` or `x11-xserver-utils`.
 
 2. Run below command:
 ```bash
@@ -23,18 +23,35 @@ docker run -it \
     ghcr.io/floating-cat/spark-wechat:latest
 
 # --ipc=host is needed, otherwise WeChat will crash 
-# -e XDG_RUNTIME_DIR=/tmp is used for PipeWire audio support
+# -e XDG_RUNTIME_DIR=/tmp is needed for PipeWire audio support
 # Note: please change 'fcitx' to 'iBus' in command above if you are using iBus
 
 # Start WeChat for later
 docker start wechat
 ```
 
-You can edit the `/root/.deepinwine/Spark-weixin/scale.txt` file within Docker to change the scale by specifying a number, such as 2.0.
+You can edit the `/root/.deepinwine/Spark-weixin/scale.txt` file within container to change the scale by specifying a number, such as 2.0.
 
-## Install container image from source
+Optional: Run below command in Bash to add a desktop entry for Linux desktop:
 
-Run `docker build -t spark-wechat --squash .` (or `podman build -t spark-wechat --layers=true --squash-all .` when you are using podman).
+```bash
+curl https://cdn.lwqwq.com/dl/wechat.svg -o ${XDG_DATA_HOME:-$HOME/.local/share}/icons/wechat.svg && echo "
+[Desktop Entry]
+Name=WeChat
+Comment=WeChat/Weixin Client on Wine
+Exec=sh -c \"xhost +SI:localuser:$(id -un) && docker start wechat\"
+Icon=${XDG_DATA_HOME:-$HOME/.local/share}/icons/wechat.svg
+Terminal=false
+StartupWMClass=WeChat.exe
+Type=Application
+Categories=Chat;InstantMessaging;Network;
+Keywords=wechat;wx;wexin;chat;im;messaging;messenger;sms;
+" > ${XDG_DATA_HOME:-$HOME/.local/share}/applications/wechat.desktop
+```
+
+## Build container image from source
+
+Run `docker build -t spark-wechat --squash .` (or `podman build -t spark-wechat --layers=true --squash-all .` when you are using Podman).
 
 ## Limitation
 
