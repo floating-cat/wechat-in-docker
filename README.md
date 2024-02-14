@@ -73,6 +73,8 @@ Run `docker build -t spark-wechat --squash .` (or `podman build -t spark-wechat 
 
 ## Credits
 
+https://aur.archlinux.org/packages/com.qq.weixin.spark
+
 https://github.com/276562578/easy_install/blob/4483545f2fd667f24ab9b9e5b6e5d3fcbc69ab31/doc/wechat/linux.md
 
 https://zhuanlan.zhihu.com/p/106926984
