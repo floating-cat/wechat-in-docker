@@ -11,7 +11,6 @@ Run [WeChat Spark version](https://aur.archlinux.org/packages/com.qq.weixin.spar
 # Start WeChat for the first time
 docker run -it \
     --name wechat \
-    --ipc=host \
     -e TZ=Asia/Shanghai \
     -e GTK_IM_MODULE=fcitx \
     -e QT_IM_MODULE=fcitx \
@@ -22,7 +21,6 @@ docker run -it \
     -v /run/user/1000/pipewire-0:/tmp/pipewire-0 \
     ghcr.io/floating-cat/spark-wechat:latest
 
-# --ipc=host is needed, otherwise WeChat will crash 
 # -e XDG_RUNTIME_DIR=/tmp is needed for PipeWire audio support: https://stackoverflow.com/a/75776428
 # Note: * please change 'fcitx' to 'iBus' in above command if you are using iBus
 #       * if you can't run this command due to '/run/user/1000/pipewire-0: no such file or directory' error
